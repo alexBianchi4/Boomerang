@@ -37,7 +37,8 @@ dependencies:
   email_validator: ^2.0.1
   firebase_core:
   cloud_firestore:
-
+  firebase_auth:
+  provider:    
 dev_dependencies:
   flutter_test:
     sdk: flutter

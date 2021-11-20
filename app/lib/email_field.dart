@@ -43,6 +43,8 @@ class _EmailFormWidgetState extends State<EmailFormWidget> {
       keyboardType: TextInputType.emailAddress,
       obscureText: widget.obscure,
       decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
         labelText: widget.text,
         prefixIcon: widget.prefix,
         suffixIcon: widget.controller.text.isEmpty

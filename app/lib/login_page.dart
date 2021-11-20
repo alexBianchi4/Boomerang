@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'globals.dart';
 import 'form_field.dart';
+import 'services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,17 +11,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? _email = '';
-  String? _password = '';
+  String _email = '';
+  String _password = '';
   final borderColour = custom_colour;
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Center(child: Text("Login")),
+        actions: [
+          ElevatedButton.icon(
+              onPressed: () {}, icon: Icon(Icons.add), label: Text("Sign Up"))
+        ],
       ),
       body: ListView(
         children: [
@@ -55,9 +62,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
+                              _email = emailController.text.toString();
+                              _password = passwordController.text.toString();
+                              dynamic result =
+                                  await _auth.signIn(_email, _password);
+                              if (result == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        "Could not sign in with those credentials")));
+                              } else {
+                                Navigator.of(context).pop();
+                              }
                             }
                           },
                           icon: Icon(Icons.login),

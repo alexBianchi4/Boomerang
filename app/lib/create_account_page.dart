@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'globals.dart';
 import 'form_field.dart';
 import 'email_field.dart';
-import 'dialog_box.dart';
+import 'password_field.dart';
+import 'package:app/services/auth.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  final AuthService _auth = new AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //the space between each form field
   final double spacer = 20;
@@ -32,8 +34,13 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: const Text("Create Account"),
+        title: const Center(child: Text("Create Account")),
+        actions: [
+          ElevatedButton.icon(
+              onPressed: () {}, icon: Icon(Icons.person), label: Text("Login"))
+        ],
       ),
       body: ListView(
         children: [
@@ -65,7 +72,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           prefix: Icon(Icons.phone)),
                       SizedBox(height: spacer),
                       //password
-                      FormWidget(
+                      PasswordWidget(
                           controller: passwordController,
                           obscure: true,
                           text: "Password",
@@ -83,7 +90,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton.icon(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState!.save();
                                   _password =
@@ -99,6 +106,19 @@ class _CreateAccountState extends State<CreateAccount> {
                                     _username =
                                         usernameController.text.toString();
                                     _email = emailController.text.toString();
+                                    _password =
+                                        passwordController.text.toString();
+                                    _phone = phoneController.text.toString();
+                                    dynamic result =
+                                        await _auth.register(_email, _password);
+                                    if (result == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Email already in use")));
+                                    } else {
+                                      Navigator.of(context).pop();
+                                    }
                                   }
                                 }
                               },

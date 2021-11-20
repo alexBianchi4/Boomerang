@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'globals.dart';
 
-class FormWidget extends StatefulWidget {
+class PasswordWidget extends StatefulWidget {
   final TextEditingController controller;
   final bool obscure;
   final String text;
   final Icon prefix;
-  const FormWidget({
+  const PasswordWidget({
     Key? key,
     required this.controller,
     required this.obscure,
@@ -15,10 +15,10 @@ class FormWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FormWidgetState createState() => _FormWidgetState();
+  _PasswordWidgetState createState() => _PasswordWidgetState();
 }
 
-class _FormWidgetState extends State<FormWidget> {
+class _PasswordWidgetState extends State<PasswordWidget> {
   @override
   void initState() {
     super.initState();
@@ -61,6 +61,9 @@ class _FormWidgetState extends State<FormWidget> {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'This field cant be null';
+        }
+        if (value.length < 6) {
+          return 'Enter a password longer than 6 characters';
         }
         return null;
       },
