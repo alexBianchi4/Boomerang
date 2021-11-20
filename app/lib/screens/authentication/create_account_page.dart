@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'globals.dart';
-import 'form_field.dart';
-import 'email_field.dart';
-import 'password_field.dart';
+import 'package:app/classes/globals.dart';
+import 'package:app/classes/form_fields/form_field.dart';
+import 'package:app/classes/form_fields/email_field.dart';
+import 'package:app/classes/form_fields/password_field.dart';
 import 'package:app/services/auth.dart';
 
 class CreateAccount extends StatefulWidget {

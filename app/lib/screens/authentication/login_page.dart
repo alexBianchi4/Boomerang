@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'globals.dart';
-import 'form_field.dart';
-import 'services/auth.dart';
+import 'package:app/classes/globals.dart';
+import 'package:app/classes/form_fields/form_field.dart';
+import 'package:app/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

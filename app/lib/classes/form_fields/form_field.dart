@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'globals.dart';
+import 'package:app/classes/globals.dart';
 
 class FormWidget extends StatefulWidget {
   final TextEditingController controller;

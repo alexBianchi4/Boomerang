@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'globals.dart';
+import 'package:app/classes/globals.dart';
 
 class EmailFormWidget extends StatefulWidget {
   final TextEditingController controller;

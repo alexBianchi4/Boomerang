@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:app/login_page.dart';
-import 'create_account_page.dart';
 import 'package:provider/provider.dart';
-import 'user.dart';
-import 'dashboard_page.dart';
+import 'package:app/classes/user.dart';
+import 'package:app/screens/dashboard/dashboard_page.dart';
+import 'login_page.dart';
+import 'create_account_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
