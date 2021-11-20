@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'globals.dart';
+import 'form_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   String? _email = '';
   String? _password = '';
   final borderColour = custom_colour;
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,42 +30,19 @@ class _LoginPageState extends State<LoginPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          labelText: "Email:",
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: borderColour, width: 2.0))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'This field cant be null';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _email = value;
-                      },
-                    ),
+                    FormWidget(
+                        controller: emailController,
+                        obscure: false,
+                        text: "Email",
+                        prefix: Icon(Icons.email)),
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          labelText: "Password:",
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: borderColour, width: 2.0))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'This field cant be null';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _password = value;
-                      },
-                    ),
+                    FormWidget(
+                        controller: passwordController,
+                        obscure: true,
+                        text: "Password",
+                        prefix: Icon(Icons.password)),
                   ],
                 )),
           ),
@@ -75,9 +55,14 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                            }
+                          },
                           icon: Icon(Icons.login),
-                          label: Text("Sign In"),
+                          label:
+                              Text("Sign In", style: TextStyle(fontSize: 16.0)),
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -88,8 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     child: Text("Forgot Password?",
-                        style: TextStyle(color: Colors.blue)),
-                    onTap: () => print("pressed"),
+                        style: TextStyle(color: Colors.blue, fontSize: 16.0)),
+                    onTap: () => print("WTF DO WE DO"),
                   ),
                 ],
               )),
