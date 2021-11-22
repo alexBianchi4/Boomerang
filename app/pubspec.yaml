@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore:
   firebase_auth:
   provider:    
+  curved_navigation_bar: ^1.0.1 #latest version
 dev_dependencies:
   flutter_test:
     sdk: flutter
