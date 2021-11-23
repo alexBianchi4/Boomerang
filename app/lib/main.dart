@@ -1,3 +1,4 @@
+import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,10 @@ import 'package:app/services/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ProviderHelper())],
+      child: MyApp()));
+  // const MyApp());
 }
 
 class MyApp extends StatelessWidget {

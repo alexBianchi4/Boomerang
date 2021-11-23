@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:app/classes/globals.dart';
+import 'package:app/screens/authentication/create_account_page.dart';
+import 'package:app/screens/authentication/login_page.dart';
+import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'dart:io';
+
+import 'package:provider/src/provider.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -15,9 +20,23 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  Widget? decide(int index) {
+    if (index == 0) {
+      return ScaffoldBodyContent();
+    } else if (index == 1) {
+      return LoginPage();
+    } else if (index == 2) {
+      return CreateAccount();
+    } else if (index == 3) {
+      return Container();
+    }
+    return null;
+  }
+
   final AuthService auth = AuthService();
   @override
   Widget build(BuildContext context) {
+    ProviderHelper providerHelper = context.watch<ProviderHelper>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -66,7 +85,7 @@ class _DashBoardState extends State<DashBoard> {
       ),
       backgroundColor: Colors.blue[50],
       drawer: Drawer(),
-      body: ScaffoldBodyContent(),
+      body: decide(providerHelper.pageIndex),
       bottomNavigationBar: BottomNavBarCurved(),
     );
   }
@@ -210,6 +229,7 @@ class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    ProviderHelper providerHelper = context.read<ProviderHelper>();
     return CurvedNavigationBar(
       items: [
         Icon(
@@ -230,6 +250,7 @@ class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
         setState(() {
           _currentIndex = index;
         });
+        providerHelper.changePageIndex(index);
       },
     );
   }
