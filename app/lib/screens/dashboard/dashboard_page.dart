@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:app/classes/globals.dart';
+import 'package:app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'dart:io';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -11,6 +15,7 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  final AuthService auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +43,31 @@ class _DashBoardState extends State<DashBoard> {
                           borderRadius: BorderRadius.circular(40))),
                 )),
             preferredSize: Size.fromHeight(30)),
+        actions: [
+          /* a button for logging out and adding a test set of data to the db (for testing purposes)
+          IconButton(
+              onPressed: () {
+                auth.signOut();
+              },
+              icon: Icon(Icons.exit_to_app)),
+          IconButton(
+              onPressed: () {
+                Image.network('https://googleflutter.com/sample_image.jpg');
+                DatabaseService("").createListing2(
+                  "gamecube",
+                  "a gamecube that works really well",
+                  "gaming",
+                  150,
+                );
+              },
+              icon: Icon(Icons.add))
+        */
+        ],
       ),
+      backgroundColor: Colors.blue[50],
       drawer: Drawer(),
       body: ScaffoldBodyContent(),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: BottomNavBarCurved(),
     );
   }
 }
@@ -57,47 +83,85 @@ class _ScaffoldBodyContentState extends State<ScaffoldBodyContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 10, left: 25, right: 25),
-      child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 40,
-          mainAxisSpacing: 30,
-          children: [
-            Category(Icons.car_rental, "Auto"),
-            Category(Icons.phone_android, "Phones"),
-            Category(Icons.computer, "Computers"),
-            Category(Icons.chair, "Furniture"),
-            Category(Icons.shop, "Apparel"),
-            Category(Icons.watch, "Watches"),
-            Category(Icons.pedal_bike, "Bikes"),
-            Category(Icons.book, "Books")
-          ]),
+      padding: EdgeInsets.only(top: 10, bottom: 10, left: 35, right: 35),
+      child: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          return categories[index];
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return SizedBox(height: 25);
+        },
+        itemCount: categories.length,
+        physics: BouncingScrollPhysics(),
+      ),
     );
   }
 }
 
+var categories = [
+  Category(Icons.car_rental, "Auto",
+      'https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+  Category(Icons.phone_android, "Phones",
+      'https://images.pexels.com/photos/887751/pexels-photo-887751.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+  Category(Icons.computer, "Laptops",
+      'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+  Category(Icons.chair, "Furniture",
+      'https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+  Category(Icons.shop, "Apparel",
+      'https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+  Category(Icons.watch, "Watches",
+      'https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+  Category(Icons.pedal_bike, "Bikes",
+      'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+  Category(Icons.book, "Books",
+      'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+];
+
 class Category extends StatelessWidget {
   IconData icon;
   String title;
+  String imageLink;
 
-  Category(this.icon, this.title);
+  Category(this.icon, this.title, this.imageLink);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {},
         child: Container(
-          decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.all(Radius.circular(40))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(icon, size: 75, color: Colors.white),
-              Text(title, style: TextStyle(fontSize: 25, color: Colors.white))
-            ],
-          ),
-        ));
+            height: 120,
+            child: Row(
+              children: [
+                Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20)),
+                        color: theme_colour),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          )
+                        ])),
+                Expanded(
+                    child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20)),
+                      image: DecorationImage(
+                          fit: BoxFit.fitWidth,
+                          image: NetworkImage(imageLink))),
+                )),
+              ],
+            )));
   }
 }
 
@@ -126,6 +190,42 @@ class _BottomNavBarState extends State<BottomNavBar> {
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account")
       ],
       currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+    );
+  }
+}
+
+class BottomNavBarCurved extends StatefulWidget {
+  const BottomNavBarCurved({Key? key}) : super(key: key);
+
+  @override
+  _BottomNavBarCurvedState createState() => _BottomNavBarCurvedState();
+}
+
+class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
+  int _currentIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return CurvedNavigationBar(
+      items: [
+        Icon(
+          Icons.home,
+          semanticLabel: "Home",
+        ),
+        Icon(Icons.star),
+        Icon(Icons.post_add),
+        Icon(Icons.person)
+      ],
+      height: 45,
+      animationDuration: Duration(milliseconds: 300),
+      color: Colors.white,
+      backgroundColor: theme_colour,
+      animationCurve: Curves.fastOutSlowIn,
+      index: _currentIndex,
       onTap: (index) {
         setState(() {
           _currentIndex = index;

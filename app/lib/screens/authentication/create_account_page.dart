@@ -109,8 +109,8 @@ class _CreateAccountState extends State<CreateAccount> {
                                     _password =
                                         passwordController.text.toString();
                                     _phone = phoneController.text.toString();
-                                    dynamic result =
-                                        await _auth.register(_email, _password);
+                                    dynamic result = await _auth.register(
+                                        _email, _password, _username, _phone);
                                     if (result == null) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
