@@ -44,6 +44,11 @@ class _DashBoardState extends State<DashBoard> {
                 )),
             preferredSize: Size.fromHeight(30)),
         actions: [
+          IconButton(
+              onPressed: () {
+                auth.signOut();
+              },
+              icon: Icon(Icons.exit_to_app)),
           /* a button for logging out and adding a test set of data to the db (for testing purposes)
           IconButton(
               onPressed: () {
