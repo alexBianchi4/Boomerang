@@ -4,11 +4,10 @@ import 'package:app/classes/globals.dart';
 import 'package:app/screens/authentication/create_account_page.dart';
 import 'package:app/screens/authentication/login_page.dart';
 import 'package:app/screens/dashboard/provider_helper.dart';
-import 'package:app/services/database.dart';
+import 'package:app/screens/products/create_listing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'dart:io';
 
 import 'package:provider/src/provider.dart';
 
@@ -21,12 +20,16 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   Widget? decide(int index) {
+    //home icon is pressed
     if (index == 0) {
       return ScaffoldBodyContent();
+      //favourite icon is pressed
     } else if (index == 1) {
       return LoginPage();
+      //add listing icon pressed
     } else if (index == 2) {
-      return CreateAccount();
+      return CreateListing();
+      //profile icon pressed
     } else if (index == 3) {
       return Container();
     }

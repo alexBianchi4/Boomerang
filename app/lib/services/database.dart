@@ -51,7 +51,7 @@ class DatabaseService {
     }
   }
 
-  /* a test function to create a listing with no image
+  //a test function to create a listing with no image
   Future createListing2(
     String title,
     String description,
@@ -69,5 +69,4 @@ class DatabaseService {
     });
     return docref;
   }
-  */
 }
