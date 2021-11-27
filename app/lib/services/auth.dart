@@ -44,7 +44,7 @@ class AuthService {
           email: email, password: password);
       User? user = authResult.user;
       // create a new document for the user in the user collection of firebase
-      await DatabaseService(user!.uid).updateUserData(username, phone);
+      await DatabaseService().updateUserData(username, phone);
       return _returnCustomUser(user);
     } catch (e) {
       return null;

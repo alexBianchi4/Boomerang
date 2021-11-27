@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:app/classes/globals.dart';
-import 'package:app/screens/authentication/create_account_page.dart';
 import 'package:app/screens/authentication/login_page.dart';
 import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:app/screens/products/create_listing_page.dart';
+import 'package:app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -71,24 +71,6 @@ class _DashBoardState extends State<DashBoard> {
                 auth.signOut();
               },
               icon: Icon(Icons.exit_to_app)),
-          /* a button for logging out and adding a test set of data to the db (for testing purposes)
-          IconButton(
-              onPressed: () {
-                auth.signOut();
-              },
-              icon: Icon(Icons.exit_to_app)),
-          IconButton(
-              onPressed: () {
-                Image.network('https://googleflutter.com/sample_image.jpg');
-                DatabaseService("").createListing2(
-                  "gamecube",
-                  "a gamecube that works really well",
-                  "gaming",
-                  150,
-                );
-              },
-              icon: Icon(Icons.add))
-        */
         ],
       ),
       backgroundColor: Colors.blue[50],
@@ -211,7 +193,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
       selectedItemColor: Colors.white,
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        // BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
         BottomNavigationBarItem(icon: Icon(Icons.post_add), label: "New Post"),
         BottomNavigationBarItem(icon: Icon(Icons.star), label: "Saved"),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account")

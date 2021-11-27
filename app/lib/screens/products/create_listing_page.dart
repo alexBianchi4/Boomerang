@@ -197,7 +197,7 @@ class _CreateListingState extends State<CreateListing> {
                     var title = titleController.text.toString();
                     var description = descriptionController.text.toString();
                     var price = double.parse(priceController.text.toString());
-                    var result = await DatabaseService("")
+                    var result = await DatabaseService()
                         .createListing(title, description, tag, price, image!);
                     if (result == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
