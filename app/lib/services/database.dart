@@ -44,7 +44,10 @@ class DatabaseService {
     // use that id as the name for the image we are putting in firestore
     try {
       final ref = FirebaseStorage.instance.ref("files/$id");
-      return ref.putFile(image);
+      await ref.putFile(image);
+      var url = await ref.getDownloadURL();
+      await listingsCollection.doc(id).update({'url': url});
+      return true;
     } catch (e) {
       return null;
     }
