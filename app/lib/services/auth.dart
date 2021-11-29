@@ -19,6 +19,11 @@ class AuthService {
         .map((User? user) => _returnCustomUser(user));
   }
 
+  //returns the current user's email
+  String? getUserEmail() {
+    return _auth.currentUser!.email;
+  }
+
   //returns the current users UID
   String getID() {
     return _auth.currentUser!.uid;
@@ -35,6 +40,20 @@ class AuthService {
       return null;
     }
   }
+
+  Future<UserCredential?> tryLogin(password) async{
+    try{
+    return await _auth.signInWithEmailAndPassword(
+          email: getUserEmail()!, password: password);
+    }catch(e){
+      return null;
+    }
+  }
+  //Update email with email and password
+  updateEmail(String email, UserCredential authResult) async{
+    authResult.user!.updateEmail(email);
+  }
+
 
   // register with email and password
   Future register(

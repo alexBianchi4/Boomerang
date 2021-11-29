@@ -2,6 +2,7 @@
 
 import 'package:app/classes/globals.dart';
 import 'package:app/screens/authentication/login_page.dart';
+import 'package:app/screens/dashboard/profile_page.dart';
 import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:app/screens/products/create_listing_page.dart';
 import 'package:app/services/database.dart';
@@ -31,7 +32,7 @@ class _DashBoardState extends State<DashBoard> {
       return CreateListing();
       //profile icon pressed
     } else if (index == 3) {
-      return Container();
+      return Profile();
     }
     return null;
   }
