@@ -149,7 +149,9 @@ class _ProfileState extends State<Profile> {
         DatabaseService().updateUserData(usernameController.text, phoneController.text);
 
         _auth.updateEmail(emailController.text, credential);
-        await fetchUserData();
+       // await fetchUserData();
+        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+              content: Text("Profile Updated"), backgroundColor: Colors.green,));
       }
       else{
         ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
