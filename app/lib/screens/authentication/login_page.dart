@@ -1,3 +1,4 @@
+import 'package:app/classes/forgot_password_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:app/classes/globals.dart';
 import 'package:app/classes/form_fields/form_field.dart';
@@ -17,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   String _password = '';
   final borderColour = custom_colour;
   var emailController = TextEditingController();
+  // for the forgot password field
+  var emailController2 = TextEditingController();
   var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -92,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     child: Text("Forgot Password?",
                         style: TextStyle(color: Colors.blue, fontSize: 16.0)),
-                    onTap: () => print("WTF DO WE DO"),
+                    onTap: () =>
+                        forgotPasswordDialog(context, emailController2),
                   ),
                 ],
               )),
