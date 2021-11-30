@@ -5,13 +5,11 @@ class PasswordWidget extends StatefulWidget {
   final TextEditingController controller;
   final bool obscure;
   final String text;
-  final Icon prefix;
   const PasswordWidget({
     Key? key,
     required this.controller,
     required this.obscure,
     required this.text,
-    required this.prefix,
   }) : super(key: key);
 
   @override
@@ -44,7 +42,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
         fillColor: Colors.white,
         filled: true,
         labelText: widget.text,
-        prefixIcon: widget.prefix,
+        prefixIcon: Icon(Icons.password),
         suffixIcon: widget.controller.text.isEmpty
             ? Container(
                 width: 0,

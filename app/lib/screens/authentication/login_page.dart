@@ -1,4 +1,5 @@
 import 'package:app/classes/forgot_password_dialog.dart';
+import 'package:app/classes/form_fields/email_field.dart';
 import 'package:app/screens/authentication/create_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/classes/globals.dart';
@@ -53,11 +54,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     //email field
-                    FormWidget(
-                        controller: emailController,
-                        obscure: false,
-                        text: "Email",
-                        prefix: Icon(Icons.email)),
+                    EmailFormWidget(
+                      controller: emailController,
+                    ),
                     const SizedBox(
                       height: 20,
                     ),

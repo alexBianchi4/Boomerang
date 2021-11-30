@@ -71,10 +71,8 @@ class _CreateAccountState extends State<CreateAccount> {
                       SizedBox(height: spacer),
                       //email field
                       EmailFormWidget(
-                          controller: emailController,
-                          obscure: false,
-                          text: "Email",
-                          prefix: Icon(Icons.email)),
+                        controller: emailController,
+                      ),
                       SizedBox(height: spacer),
                       //phone number field
                       FormWidget(
@@ -85,10 +83,10 @@ class _CreateAccountState extends State<CreateAccount> {
                       SizedBox(height: spacer),
                       //password field
                       PasswordWidget(
-                          controller: passwordController,
-                          obscure: true,
-                          text: "Password",
-                          prefix: Icon(Icons.password)),
+                        controller: passwordController,
+                        obscure: true,
+                        text: "Password",
+                      ),
                       SizedBox(height: spacer),
                       //confirm password field
                       FormWidget(

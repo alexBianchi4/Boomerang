@@ -4,15 +4,9 @@ import 'package:app/classes/globals.dart';
 
 class EmailFormWidget extends StatefulWidget {
   final TextEditingController controller;
-  final bool obscure;
-  final String text;
-  final Icon prefix;
   const EmailFormWidget({
     Key? key,
     required this.controller,
-    required this.obscure,
-    required this.text,
-    required this.prefix,
   }) : super(key: key);
 
   @override
@@ -41,12 +35,11 @@ class _EmailFormWidgetState extends State<EmailFormWidget> {
     return TextFormField(
       controller: widget.controller,
       keyboardType: TextInputType.emailAddress,
-      obscureText: widget.obscure,
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        labelText: widget.text,
-        prefixIcon: widget.prefix,
+        labelText: "Email",
+        prefixIcon: Icon(Icons.mail),
         suffixIcon: widget.controller.text.isEmpty
             ? Container(
                 width: 0,

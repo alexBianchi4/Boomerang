@@ -19,9 +19,6 @@ forgotPasswordDialog(BuildContext context, TextEditingController controller) {
                       padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
                       child: EmailFormWidget(
                         controller: controller,
-                        obscure: false,
-                        prefix: Icon(Icons.mail),
-                        text: 'Email',
                       ))),
               ElevatedButton.icon(
                   style: ButtonStyle(
