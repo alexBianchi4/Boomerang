@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CustomUser?>(context);
+    // if the user logs in or is already logged in from a previous time, go to the dashboard
     if (user != null) {
       return DashBoard();
     }

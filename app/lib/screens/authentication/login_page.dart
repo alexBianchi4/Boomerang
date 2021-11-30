@@ -1,4 +1,5 @@
 import 'package:app/classes/forgot_password_dialog.dart';
+import 'package:app/screens/authentication/create_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/classes/globals.dart';
 import 'package:app/classes/form_fields/form_field.dart';
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // create a connection with the firebase authentication service
   final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email = '';
@@ -26,10 +28,20 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: const Center(child: Text("Login")),
+        // remove back button
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text("Login"),
         actions: [
           ElevatedButton.icon(
-              onPressed: () {}, icon: Icon(Icons.add), label: Text("Sign Up"))
+              onPressed: () {
+                // switch the screen to the create account screen
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CreateAccount()));
+              },
+              icon: Icon(Icons.add),
+              label: Text("Sign Up"))
         ],
       ),
       body: ListView(
@@ -40,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    //email field
                     FormWidget(
                         controller: emailController,
                         obscure: false,
@@ -48,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    // password field
                     FormWidget(
                         controller: passwordController,
                         obscure: true,
@@ -64,12 +78,14 @@ class _LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                     child: SizedBox(
                       width: double.infinity,
+                      // login button
                       child: ElevatedButton.icon(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
                               _email = emailController.text.toString();
                               _password = passwordController.text.toString();
+                              // attempt to login with firebase authenticator
                               dynamic result =
                                   await _auth.signIn(_email, _password);
                               if (result == null) {
@@ -77,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                                     content: Text(
                                         "Could not sign in with those credentials")));
                               } else {
+                                // authentication worked, pop this screen and the provider will push the dashboard
                                 Navigator.of(context).pop();
                               }
                             }
