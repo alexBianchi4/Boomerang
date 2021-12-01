@@ -5,6 +5,7 @@ import 'package:app/screens/authentication/login_page.dart';
 import 'package:app/screens/dashboard/profile_page.dart';
 import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:app/screens/products/create_listing_page.dart';
+import 'package:app/screens/products/results_page.dart';
 import 'package:app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
@@ -61,12 +62,22 @@ class _DashBoardState extends State<DashBoard> {
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
+                      suffixIcon: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.search)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40))),
                 )),
             preferredSize: Size.fromHeight(30)),
         actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  categories.sort((a, b) => a.title.compareTo(b.title));
+                });
+              },
+              icon: Icon(
+                Icons.sort_by_alpha,
+              )),
           IconButton(
               onPressed: () {
                 auth.signOut();
@@ -93,7 +104,7 @@ class _ScaffoldBodyContentState extends State<ScaffoldBodyContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 10, bottom: 10, left: 35, right: 35),
+      padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
       child: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
           return categories[index];
@@ -109,22 +120,14 @@ class _ScaffoldBodyContentState extends State<ScaffoldBodyContent> {
 }
 
 var categories = [
-  Category(Icons.car_rental, "Auto",
-      'https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-  Category(Icons.phone_android, "Phones",
-      'https://images.pexels.com/photos/887751/pexels-photo-887751.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-  Category(Icons.computer, "Laptops",
-      'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-  Category(Icons.chair, "Furniture",
-      'https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-  Category(Icons.shop, "Apparel",
-      'https://images.pexels.com/photos/325876/pexels-photo-325876.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-  Category(Icons.watch, "Watches",
-      'https://images.pexels.com/photos/380782/pexels-photo-380782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-  Category(Icons.pedal_bike, "Bikes",
-      'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
-  Category(Icons.book, "Books",
-      'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+  Category(Icons.car_rental, "Auto", 'assets/auto.jpeg'),
+  Category(Icons.phone_android, "Phones", 'assets/phone.jpeg'),
+  Category(Icons.computer, "Laptops", 'assets/laptop.jpeg'),
+  Category(Icons.chair, "Furniture", 'assets/furniture.jpeg'),
+  Category(Icons.watch, "Apparel", 'assets/apparel.jpeg'),
+  Category(Icons.watch, "Watches", 'assets/watches.jpeg'),
+  Category(Icons.pedal_bike, "Bikes", 'assets/bikes.jpeg'),
+  Category(Icons.book, "Books", 'assets/books.jpeg'),
 ];
 
 class Category extends StatelessWidget {
@@ -137,7 +140,10 @@ class Category extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ResultsWidget(title)));
+        },
         child: Container(
             height: 120,
             child: Row(
@@ -152,6 +158,7 @@ class Category extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Icon(icon, color: Colors.white),
                           Text(
                             title,
                             style: TextStyle(
@@ -167,8 +174,7 @@ class Category extends StatelessWidget {
                           topRight: Radius.circular(20),
                           bottomRight: Radius.circular(20)),
                       image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: NetworkImage(imageLink))),
+                          fit: BoxFit.fitWidth, image: AssetImage(imageLink))),
                 )),
               ],
             )));
