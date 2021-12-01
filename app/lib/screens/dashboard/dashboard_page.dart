@@ -17,6 +17,7 @@ class DashBoard extends StatefulWidget {
 
   @override
   _DashBoardState createState() => _DashBoardState();
+
 }
 
 class _DashBoardState extends State<DashBoard> {
@@ -184,7 +185,12 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
-
+  /*
+  void initState() {
+    print("Now!");
+    print(_currentIndex);
+  }
+  */
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -217,9 +223,11 @@ class BottomNavBarCurved extends StatefulWidget {
 
 class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
   int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     ProviderHelper providerHelper = context.read<ProviderHelper>();
+    //providerHelper.changePageIndex(0);
     return CurvedNavigationBar(
       items: [
         Icon(
@@ -235,7 +243,7 @@ class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
       color: Colors.white,
       backgroundColor: theme_colour,
       animationCurve: Curves.fastOutSlowIn,
-      index: _currentIndex,
+      index: providerHelper.pageIndex,
       onTap: (index) {
         setState(() {
           _currentIndex = index;
@@ -245,3 +253,5 @@ class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
     );
   }
 }
+
+
