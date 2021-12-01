@@ -2,6 +2,7 @@ import 'package:app/classes/form_fields/email_field.dart';
 import 'package:app/classes/form_fields/form_field.dart';
 import 'package:app/classes/form_fields/password_field.dart';
 import 'package:app/services/database.dart';
+import 'package:app/services/geolocation.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
 
@@ -33,6 +34,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     fetchUserData();
+    GeolocationService geo = new GeolocationService();
   }
 
   fetchUserData() async {

@@ -42,6 +42,8 @@ dependencies:
   firebase_auth:
   firebase_storage:
   provider:    
+  geolocator: ^8.0.0
+  geocoding:
 
 dev_dependencies:
   flutter_test:
