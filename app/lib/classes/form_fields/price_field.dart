@@ -3,13 +3,9 @@ import 'package:app/classes/globals.dart';
 
 class PriceWidget extends StatefulWidget {
   final TextEditingController controller;
-  final String text;
-  final Icon prefix;
   const PriceWidget({
     Key? key,
     required this.controller,
-    required this.text,
-    required this.prefix,
   }) : super(key: key);
 
   @override
@@ -41,8 +37,8 @@ class _PriceWidgetState extends State<PriceWidget> {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        labelText: widget.text,
-        prefixIcon: widget.prefix,
+        labelText: "Price",
+        prefixIcon: Icon(Icons.attach_money),
         suffixIcon: widget.controller.text.isEmpty
             ? Container(
                 width: 0,

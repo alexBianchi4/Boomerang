@@ -41,21 +41,19 @@ class AuthService {
     }
   }
 
-  //Tests that given password matches the current user's and, if it does, returns users credentials.
-  Future<UserCredential?> tryLogin(password) async{
-    try{
-    return await _auth.signInWithEmailAndPassword(
+  Future<UserCredential?> tryLogin(password) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(
           email: getUserEmail()!, password: password);
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
   //Update email with email and password
-  updateEmail(String email, UserCredential authResult) async{
+  updateEmail(String email, UserCredential authResult) async {
     authResult.user!.updateEmail(email);
   }
-
 
   // register with email and password
   Future register(
@@ -79,5 +77,10 @@ class AuthService {
     } catch (e) {
       return null;
     }
+  }
+
+  // sends a password reset email to email
+  void resetPassword(String email) {
+    _auth.sendPasswordResetEmail(email: email);
   }
 }

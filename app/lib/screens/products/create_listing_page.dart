@@ -66,7 +66,6 @@ class _CreateListingState extends State<CreateListing> {
                                 borderRadius: BorderRadius.circular(20.0))),
                         onTap: () async {
                           var result = await selectImage();
-                          selectImage();
                           setState(() {
                             image = result;
                           });
@@ -76,7 +75,6 @@ class _CreateListingState extends State<CreateListing> {
                         children: [
                           ConstrainedBox(
                             constraints: new BoxConstraints(
-                              minHeight: 0,
                               minWidth: double.infinity,
                               maxHeight: 200.0,
                               maxWidth: double.infinity,
@@ -109,23 +107,21 @@ class _CreateListingState extends State<CreateListing> {
         Form(
           key: _formKey,
           child: Container(
-            padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
             child: Column(children: [
               FormWidget(
                   controller: titleController,
                   obscure: false,
                   text: "Title",
-                  prefix: Icon(Icons.title)),
+                  prefix: const Icon(Icons.title)),
               SizedBox(height: spacer),
               PriceWidget(
-                  controller: priceController,
-                  text: "Price",
-                  prefix: Icon(Icons.attach_money)),
+                controller: priceController,
+              ),
               SizedBox(height: spacer),
               DescriptionWidget(
-                  controller: descriptionController,
-                  text: "Description",
-                  prefix: Icon(Icons.text_fields)),
+                controller: descriptionController,
+              ),
               SizedBox(
                 width: spacer,
               ),
@@ -174,7 +170,7 @@ class _CreateListingState extends State<CreateListing> {
         ),
         // the upload button
         Container(
-          padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 30.0),
+          padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 30.0),
           child: ElevatedButton.icon(
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -216,8 +212,8 @@ class _CreateListingState extends State<CreateListing> {
                   }
                 }
               },
-              icon: Icon(Icons.upload),
-              label: Text(
+              icon: const Icon(Icons.upload),
+              label: const Text(
                 "Create Listing",
                 style: TextStyle(fontSize: 20.0),
               )),

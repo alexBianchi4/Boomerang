@@ -1,3 +1,4 @@
+import 'package:app/screens/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/classes/globals.dart';
 import 'package:app/classes/form_fields/form_field.dart';
@@ -13,6 +14,7 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  //make a connection with firebase authenticator
   final AuthService _auth = new AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //the space between each form field
@@ -36,10 +38,20 @@ class _CreateAccountState extends State<CreateAccount> {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: const Center(child: Text("Create Account")),
+        // remove the back button
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text("Create Account"),
         actions: [
           ElevatedButton.icon(
-              onPressed: () {}, icon: Icon(Icons.person), label: Text("Login"))
+              onPressed: () {
+                // switch the page to the Login Page
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+              icon: Icon(Icons.person),
+              label: Text("Login"))
         ],
       ),
       body: ListView(
@@ -50,41 +62,40 @@ class _CreateAccountState extends State<CreateAccount> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      //username
+                      //username field
                       FormWidget(
                           controller: usernameController,
                           obscure: false,
                           text: "Username",
                           prefix: Icon(Icons.person)),
                       SizedBox(height: spacer),
-                      //email
+                      //email field
                       EmailFormWidget(
-                          controller: emailController,
-                          obscure: false,
-                          text: "Email",
-                          prefix: Icon(Icons.email)),
+                        controller: emailController,
+                      ),
                       SizedBox(height: spacer),
-                      //phone number
+                      //phone number field
                       FormWidget(
                           controller: phoneController,
                           obscure: false,
                           text: "Phone Number",
                           prefix: Icon(Icons.phone)),
                       SizedBox(height: spacer),
-                      //password
+                      //password field
                       PasswordWidget(
-                          controller: passwordController,
-                          obscure: true,
-                          text: "Password",
-                          prefix: Icon(Icons.password)),
+                        controller: passwordController,
+                        obscure: true,
+                        text: "Password",
+                      ),
                       SizedBox(height: spacer),
-                      //confirmPassword
+                      //confirm password field
                       FormWidget(
                           controller: confirmPasswordController,
                           obscure: true,
                           text: "Confirm Password",
                           prefix: Icon(Icons.password)),
                       SizedBox(height: spacer),
+                      //submit button
                       Container(
                         padding: EdgeInsets.all(30.0),
                         child: SizedBox(
@@ -97,6 +108,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                       passwordController.text.toString();
                                   _confirmedPassword =
                                       confirmPasswordController.text.toString();
+                                  // if the passwords don't match they must re-enter them
                                   if (_password != _confirmedPassword) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
@@ -109,6 +121,7 @@ class _CreateAccountState extends State<CreateAccount> {
                                     _password =
                                         passwordController.text.toString();
                                     _phone = phoneController.text.toString();
+                                    //register the account with firebase authenticator
                                     dynamic result = await _auth.register(
                                         _email, _password, _username, _phone);
                                     if (result == null) {
@@ -117,6 +130,8 @@ class _CreateAccountState extends State<CreateAccount> {
                                               content: Text(
                                                   "Email already in use")));
                                     } else {
+                                      // successful account creation
+                                      // pop the current screen and then the provider will bring the app to the dashboard
                                       Navigator.of(context).pop();
                                     }
                                   }
