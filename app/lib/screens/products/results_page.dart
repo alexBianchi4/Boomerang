@@ -2,6 +2,7 @@
 
 import 'package:app/classes/globals.dart';
 import 'package:app/screens/dashboard/dashboard_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +24,14 @@ class ResultsWidget extends StatefulWidget {
 }
 
 class _ResultsWidgetState extends State<ResultsWidget> {
-  final listings = FirebaseFirestore.instance
+  final CategoryListings = FirebaseFirestore.instance
       .collection("listing")
       .where("tag", isEqualTo: categoryGlobal);
+
+  final SearchListings = FirebaseFirestore.instance
+      .collection("listing")
+      .where("search_cases", arrayContains: categoryGlobal);
+
   @override
   Widget build(BuildContext context) {
     // getURL();
@@ -66,7 +72,7 @@ class _ResultsWidgetState extends State<ResultsWidget> {
       body: Padding(
           padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
           child: StreamBuilder(
-              stream: listings.snapshots(),
+              stream: SearchListings.snapshots(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();

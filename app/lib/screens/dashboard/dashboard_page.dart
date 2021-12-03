@@ -6,7 +6,6 @@ import 'package:app/screens/dashboard/profile_page.dart';
 import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:app/screens/products/create_listing_page.dart';
 import 'package:app/screens/products/results_page.dart';
-import 'package:app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -18,7 +17,6 @@ class DashBoard extends StatefulWidget {
 
   @override
   _DashBoardState createState() => _DashBoardState();
-
 }
 
 class _DashBoardState extends State<DashBoard> {
@@ -67,6 +65,13 @@ class _DashBoardState extends State<DashBoard> {
                           onPressed: () {}, icon: Icon(Icons.search)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40))),
+                  onSubmitted: (value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultsWidget(value),
+                        ));
+                  },
                 )),
             preferredSize: Size.fromHeight(30)),
         actions: [
@@ -259,5 +264,3 @@ class _BottomNavBarCurvedState extends State<BottomNavBarCurved> {
     );
   }
 }
-
-
