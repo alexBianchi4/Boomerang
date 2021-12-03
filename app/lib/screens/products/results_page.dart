@@ -1,22 +1,15 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, avoid_unnecessary_containers, dead_code, prefer_const_literals_to_create_immutables
-
-import 'package:app/classes/globals.dart';
-import 'package:app/screens/dashboard/dashboard_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:app/screens/products/listing_preview.dart';
-import 'package:app/classes/user.dart';
 
 List<String> urls = [];
 String categoryGlobal = "";
+bool wasSearched = false;
 
 class ResultsWidget extends StatefulWidget {
-  ResultsWidget(String category) {
+  ResultsWidget(String category, bool search) {
     categoryGlobal = category;
+    wasSearched = search;
   }
 
   @override
@@ -24,17 +17,8 @@ class ResultsWidget extends StatefulWidget {
 }
 
 class _ResultsWidgetState extends State<ResultsWidget> {
-  final CategoryListings = FirebaseFirestore.instance
-      .collection("listing")
-      .where("tag", isEqualTo: categoryGlobal);
-
-  final SearchListings = FirebaseFirestore.instance
-      .collection("listing")
-      .where("search_cases", arrayContains: categoryGlobal);
-
   @override
   Widget build(BuildContext context) {
-    // getURL();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -72,7 +56,15 @@ class _ResultsWidgetState extends State<ResultsWidget> {
       body: Padding(
           padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
           child: StreamBuilder(
-              stream: SearchListings.snapshots(),
+              stream: wasSearched
+                  ? FirebaseFirestore.instance
+                      .collection("listing")
+                      .where("search_cases", arrayContains: categoryGlobal)
+                      .snapshots()
+                  : FirebaseFirestore.instance
+                      .collection("listing")
+                      .where("tag", isEqualTo: categoryGlobal)
+                      .snapshots(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
@@ -145,20 +137,5 @@ class _ResultsWidgetState extends State<ResultsWidget> {
               })),
       backgroundColor: Colors.blue[50],
     );
-  }
-
-  getURL() async {
-    final db = FirebaseFirestore.instance;
-    var result = await db.collection('listing').get();
-    var docs = result.docs;
-    int count = 0;
-    for (var doc in docs) {
-      final ref = FirebaseStorage.instance.ref("files/${doc.id}");
-      String url = await ref.getDownloadURL();
-      urls.add(url);
-      print(url);
-      // print(doc.id);
-    }
-    print(urls.length);
   }
 }

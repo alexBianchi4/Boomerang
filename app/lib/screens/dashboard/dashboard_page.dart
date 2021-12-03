@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:app/classes/globals.dart';
 import 'package:app/screens/authentication/login_page.dart';
 import 'package:app/screens/dashboard/profile_page.dart';
@@ -9,7 +8,6 @@ import 'package:app/screens/products/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/services/auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
 import 'package:provider/src/provider.dart';
 
 class DashBoard extends StatefulWidget {
@@ -69,7 +67,7 @@ class _DashBoardState extends State<DashBoard> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ResultsWidget(value),
+                          builder: (context) => ResultsWidget(value, true),
                         ));
                   },
                 )),
@@ -147,8 +145,10 @@ class Category extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ResultsWidget(title)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ResultsWidget(title, false)));
         },
         child: Container(
             height: 120,

@@ -29,6 +29,9 @@ class DatabaseService {
     double price,
     File image,
   ) async {
+    // creating a list of possible search terms related to the listing title
+    List<String> cases = title.split(' ');
+    cases.add(title);
     // get the users ID
     String uid = AuthService().getID();
     // add a new document to the listing collection
@@ -37,7 +40,8 @@ class DatabaseService {
       'title': title,
       'description': description,
       'tag': tag,
-      'price': price
+      'price': price,
+      'search_cases': cases
     });
     // get the id of the document that was just created in listing
     String id = docref.id;
