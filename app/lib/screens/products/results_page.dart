@@ -23,12 +23,7 @@ class _ResultsWidgetState extends State<ResultsWidget> {
       appBar: AppBar(
         centerTitle: true,
         title: Column(
-          children: [
-            Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/1920px-EBay_logo.svg.png',
-              width: 100,
-            )
-          ],
+          children: [Image.asset("assets/boomerangTxt.png")],
         ),
         bottom: PreferredSize(
             child: Container(

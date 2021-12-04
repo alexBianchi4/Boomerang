@@ -24,18 +24,49 @@ class _HomePageState extends State<HomePage> {
         body: Center(
       child: ListView(
         children: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-              child: const Text("Sign In")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CreateAccount()));
-              },
-              child: const Text("Create Account"))
+          Image.asset("assets/Boomerang_Pan_GIF.gif"),
+          Container(
+              padding: EdgeInsets.fromLTRB(40, 40, 40, 0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        },
+                        child: const Text("Sign In",
+                            style: TextStyle(fontSize: 18.0)),
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        )))),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateAccount()));
+                        },
+                        child: const Text(
+                          "Create Account",
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        )))),
+                  )
+                ],
+              )),
         ],
       ),
     ));
