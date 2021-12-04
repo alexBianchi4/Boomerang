@@ -3,6 +3,7 @@ import 'package:app/classes/form_fields/description_field.dart';
 import 'package:app/classes/form_fields/form_field.dart';
 import 'package:app/classes/form_fields/price_field.dart';
 import 'package:app/classes/globals.dart';
+import 'package:app/classes/loading_dialog.dart';
 import 'package:app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -193,14 +194,18 @@ class _CreateListingState extends State<CreateListing> {
                     var title = titleController.text.toString();
                     var description = descriptionController.text.toString();
                     var price = double.parse(priceController.text.toString());
+                    showLoadingDialog(
+                      context,
+                    );
                     var result = await DatabaseService()
                         .createListing(title, description, tag, price, image!);
+                    Navigator.pop(context);
                     if (result == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Failed to upload listing")));
                     } else {
                       showAlertDialog(
-                          context, "Success, listing has been posted");
+                          context, "Success, Listing Has Been Posted");
                       setState(() {
                         image = null;
                         titleController.clear();

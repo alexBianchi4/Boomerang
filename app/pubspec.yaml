@@ -44,6 +44,7 @@ dependencies:
   provider:    
   geolocator: ^8.0.0
   geocoding:
+  geoflutterfire:  
 
 dev_dependencies:
   flutter_test:

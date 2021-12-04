@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:app/services/geolocation.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class DatabaseService {
   // reference for user_info collection
@@ -51,6 +54,23 @@ class DatabaseService {
       await ref.putFile(image);
       var url = await ref.getDownloadURL();
       await listingsCollection.doc(id).update({'url': url});
+    } catch (e) {
+      // if the image doesn't get stored delete the listing from the database
+      await listingsCollection.doc(id).delete();
+      return null;
+    }
+
+    try {
+      // get the users latitude and longitude
+      Position? position = await GeolocationService().getPosition();
+      if (position == null) {
+        return null;
+      }
+      // create a geoFirePoint so that we can store the coordiantes in firebase with the listing
+      Geoflutterfire geo = Geoflutterfire();
+      GeoFirePoint point =
+          geo.point(latitude: position.latitude, longitude: position.longitude);
+      await listingsCollection.doc(id).update({'position': point.data});
       return true;
     } catch (e) {
       return null;
