@@ -154,7 +154,7 @@ class _CreateListingState extends State<CreateListing> {
                   'Books',
                   'Collectibles',
                   'Furniture',
-                  'gaming',
+                  'Gaming',
                   'Laptops',
                   'Phones',
                   'Tech',
