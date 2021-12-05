@@ -104,7 +104,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     // TODO: implement initState
     super.initState();
   }
-
+  
   List<Map<String, dynamic>> allListings = [];
   final Listing = FirebaseFirestore.instance.collection('listing');
   final Favorites = FirebaseFirestore.instance.collection('Favorite');
