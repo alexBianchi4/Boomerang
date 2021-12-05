@@ -43,7 +43,6 @@ class _FavoritesState extends State<Favorites> {
   }
 
   getData() async {
-    print("in here");
     AuthService authService = AuthService();
     var favorites = await DatabaseService().getFavorites();
     var key = authService.getID();
@@ -88,13 +87,6 @@ class _FavoritesState extends State<Favorites> {
         userId.add(data["uid"]);
       }
     } catch (exception) {}
-    print(price);
-    print(title);
-    print(description);
-    print(tags);
-    print(images);
-    print(locations);
-    print(userId);
     setState(() {});
   }
 }
