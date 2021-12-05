@@ -40,45 +40,53 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     ProviderHelper providerHelper = context.watch<ProviderHelper>();
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Column(
-          children: [Image.asset('assets/boomerangTxt.png')],
-        ),
-        bottom: PreferredSize(
-            child: Container(
-                padding: EdgeInsets.only(bottom: 7),
-                height: 40,
-                width: 300,
-                child: TextField(
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      suffixIcon: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.search)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40))),
-                  onSubmitted: (value) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ResultsWidget(value, true),
-                        ));
-                  },
-                )),
-            preferredSize: Size.fromHeight(30)),
-        actions: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  categories.sort((a, b) => a.title.compareTo(b.title));
-                });
-              },
-              icon: Icon(
-                Icons.sort_by_alpha,
-              )),
-        ],
-      ),
+      appBar: providerHelper.pageIndex == 0
+          ? AppBar(
+              centerTitle: true,
+              title: Column(
+                children: [Image.asset('assets/boomerangTxt.png')],
+              ),
+              bottom: PreferredSize(
+                  child: Container(
+                      padding: EdgeInsets.only(bottom: 7),
+                      height: 40,
+                      width: 300,
+                      child: TextField(
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            suffixIcon: IconButton(
+                                onPressed: () {}, icon: Icon(Icons.search)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40))),
+                        onSubmitted: (value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ResultsWidget(value, true),
+                              ));
+                        },
+                      )),
+                  preferredSize: Size.fromHeight(30)),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        categories.sort((a, b) => a.title.compareTo(b.title));
+                      });
+                    },
+                    icon: Icon(
+                      Icons.sort_by_alpha,
+                    )),
+              ],
+            )
+          : AppBar(
+              centerTitle: true,
+              title: Column(
+                children: [Image.asset('assets/boomerangTxt.png')],
+              ),
+            ),
       backgroundColor: Colors.blue[50],
       body: decide(providerHelper.pageIndex),
       bottomNavigationBar: BottomNavBarCurved(),
