@@ -14,3 +14,4 @@ MaterialColor theme_colour = MaterialColor(0xFF5171FE, const <int, Color>{
 });
 
 final custom_colour = Color(0xFF5171FE);
+final custom_colour2 = Color(0xFFFFFFFA);

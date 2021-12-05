@@ -87,7 +87,7 @@ class _DashBoardState extends State<DashBoard> {
                 children: [Image.asset('assets/boomerangTxt.png')],
               ),
             ),
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Colors.white,
       body: decide(providerHelper.pageIndex),
       bottomNavigationBar: BottomNavBarCurved(),
     );
@@ -121,7 +121,7 @@ class _ScaffoldBodyContentState extends State<ScaffoldBodyContent> {
 }
 
 var categories = [
-  Category(Icons.watch, "Apparel", 'assets/apparel.jpeg'),
+  Category(Icons.radio_button_checked, "Apparel", 'assets/apparel.jpeg'),
   Category(Icons.car_rental, "Auto", 'assets/auto.jpeg'),
   Category(Icons.pedal_bike, "Bikes", 'assets/bikes.jpeg'),
   Category(Icons.book, "Books", 'assets/books.jpeg'),
