@@ -68,7 +68,7 @@ class _FavoritesState extends State<Favorites> {
     var snapshot1;
     var data;
 
-    print(allPosts);
+    
 
     try {
       for (int i = 0; i < allPosts.length; i++) {
