@@ -113,14 +113,17 @@ class _ScaffoldBodyContentState extends State<ScaffoldBodyContent> {
 }
 
 var categories = [
-  Category(Icons.car_rental, "Auto", 'assets/auto.jpeg'),
-  Category(Icons.phone_android, "Phones", 'assets/phone.jpeg'),
-  Category(Icons.computer, "Laptops", 'assets/laptop.jpeg'),
-  Category(Icons.chair, "Furniture", 'assets/furniture.jpeg'),
   Category(Icons.watch, "Apparel", 'assets/apparel.jpeg'),
-  Category(Icons.watch, "Watches", 'assets/watches.jpeg'),
+  Category(Icons.car_rental, "Auto", 'assets/auto.jpeg'),
   Category(Icons.pedal_bike, "Bikes", 'assets/bikes.jpeg'),
   Category(Icons.book, "Books", 'assets/books.jpeg'),
+  Category(Icons.collections, "Collectibles", 'assets/collectible.jpg'),
+  Category(Icons.chair, "Furniture", 'assets/furniture.jpeg'),
+  Category(Icons.gamepad, "Gaming", 'assets/game.jpg'),
+  Category(Icons.computer, "Laptops", 'assets/laptop.jpeg'),
+  Category(Icons.phone_android, "Phones", 'assets/phone.jpeg'),
+  Category(Icons.tv, "TVs", 'assets/tv.jpg'),
+  Category(Icons.watch, "Watches", 'assets/watches.jpeg'),
 ];
 
 class Category extends StatelessWidget {
