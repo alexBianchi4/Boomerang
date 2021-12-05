@@ -51,6 +51,12 @@ class DatabaseService {
     });
     // get the id of the document that was just created in listing
     String id = docref.id;
+
+    await listingsCollection
+      .doc(docref.id)
+      .update({'postId': id,
+    });
+
     // use that id as the name for the image we are putting in firestore
     try {
       final ref = FirebaseStorage.instance.ref("files/$id");
