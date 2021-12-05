@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:app/classes/globals.dart';
-import 'package:app/screens/authentication/login_page.dart';
+import 'package:app/screens/Favorite/Favorite.dart';
 import 'package:app/screens/dashboard/profile_page.dart';
 import 'package:app/screens/dashboard/provider_helper.dart';
 import 'package:app/screens/products/create_listing_page.dart';
@@ -24,7 +24,7 @@ class _DashBoardState extends State<DashBoard> {
       return ScaffoldBodyContent();
       //favourite icon is pressed
     } else if (index == 1) {
-      return LoginPage();
+      return Favorites();
       //add listing icon pressed
     } else if (index == 2) {
       return CreateListing();
@@ -77,15 +77,9 @@ class _DashBoardState extends State<DashBoard> {
               icon: Icon(
                 Icons.sort_by_alpha,
               )),
-          IconButton(
-              onPressed: () {
-                auth.signOut();
-              },
-              icon: Icon(Icons.exit_to_app)),
         ],
       ),
       backgroundColor: Colors.blue[50],
-      drawer: Drawer(),
       body: decide(providerHelper.pageIndex),
       bottomNavigationBar: BottomNavBarCurved(),
     );
@@ -191,12 +185,6 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
-  /*
-  void initState() {
-    print("Now!");
-    print(_currentIndex);
-  }
-  */
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(

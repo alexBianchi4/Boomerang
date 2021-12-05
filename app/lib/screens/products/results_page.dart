@@ -75,14 +75,8 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                       var docData = snapshot.data.docs[index].data();
                       var docId = snapshot.data.docs[index].id;
                       return GestureDetector(
-                          onTap: () async {
+                          onTap: () {
                             GeoPoint location = docData["position"]["geopoint"];
-                            // String placemark = await GeolocationService()
-                            //     .getPlaceMark(
-                            //         location.latitude, location.longitude);
-                            // double distance = await GeolocationService()
-                            //     .getDistance(
-                            //         location.latitude, location.longitude);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

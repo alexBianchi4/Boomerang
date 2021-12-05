@@ -1,6 +1,7 @@
 import 'package:app/classes/form_fields/email_field.dart';
 import 'package:app/classes/form_fields/form_field.dart';
 import 'package:app/classes/form_fields/password_field.dart';
+import 'package:app/classes/globals.dart';
 import 'package:app/services/database.dart';
 import 'package:app/services/geolocation.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,6 @@ class Profile extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
-var _userName;
-var _email;
-var _password;
-var _newPassword;
-var _confirmedNewPassword;
-var _phone;
-var _username;
-
 var emailController = TextEditingController();
 var usernameController = TextEditingController();
 var passwordController = TextEditingController();
@@ -28,20 +21,18 @@ var newPasswordController = TextEditingController();
 var confirmNewPasswordController = TextEditingController();
 var phoneController = TextEditingController();
 
-final AuthService _auth = new AuthService();
+final AuthService _auth = AuthService();
 
 class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     fetchUserData();
-    GeolocationService geo = new GeolocationService();
+    GeolocationService geo = GeolocationService();
   }
 
   fetchUserData() async {
     var user = await DatabaseService().getUserInfo();
     user['email'] = _auth.getUserEmail();
-    //print(_email);
-
     usernameController.text = user['username'];
     phoneController.text = user['phone_number'];
     emailController.text = user['email'];
@@ -113,8 +104,21 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                  FloatingActionButton(
-                      onPressed: saveChanges, child: Icon(Icons.save))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FloatingActionButton(
+                          backgroundColor: custom_colour,
+                          onPressed: saveChanges,
+                          child: Icon(Icons.save)),
+                      FloatingActionButton(
+                          backgroundColor: custom_colour,
+                          onPressed: () {
+                            AuthService().signOut();
+                          },
+                          child: Icon(Icons.logout))
+                    ],
+                  ),
                 ],
               )))
     ]);

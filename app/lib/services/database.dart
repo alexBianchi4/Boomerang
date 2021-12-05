@@ -94,11 +94,9 @@ class DatabaseService {
   // returns a map that contains the information of a document with the ID of the user passed to the function
   // in the user_info collection
   getUserInfoByID(String id) async {
-    // get the users ID
-    String uid = AuthService().getID();
     // get a snapshot of the document that coresponds to the users ID
     var snapshot =
-        await FirebaseFirestore.instance.collection('user_info').doc(uid).get();
+        await FirebaseFirestore.instance.collection('user_info').doc(id).get();
     // return the data from that document as a map
     return snapshot.data();
   }
@@ -111,7 +109,14 @@ class DatabaseService {
     var docs = snapshots.docs;
     // use the map function to turn all of the snapshots into maps
     // returns as a list of maps
-    var mapped = docs.map((e) => e.data());
+    List<Map<String, dynamic>> mapped = [];
+    docs.forEach((element) {
+      mapped.add({
+        "postId": element["postId"],
+        "ref": element["ref"],
+        "name": element.id
+      });
+    });
     return mapped;
   }
 
@@ -136,9 +141,6 @@ class DatabaseService {
       'postId': row["postId"],
     });
     print(docref.id);
-    // .then((value){
-    // print(value.id);
-    // });
     await favoritesCollection
         .doc(docref.id)
         .set({'ref': row["ref"], 'postId': row["postId"], 'id': docref.id});
