@@ -145,6 +145,9 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                                                         Flexible(
                                                             child: Text(
                                                           docData['title'],
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: TextStyle(
                                                               fontSize: 20,
                                                               fontWeight:
