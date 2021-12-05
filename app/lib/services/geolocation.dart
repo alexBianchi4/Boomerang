@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GeolocationService {
@@ -38,5 +39,13 @@ class GeolocationService {
     } else {
       return 0;
     }
+  }
+
+  getPlaceMark(double latitude, double longitude) async {
+    List<Placemark> places =
+        await placemarkFromCoordinates(latitude, longitude);
+    String? name = places.first.locality;
+
+    return name;
   }
 }

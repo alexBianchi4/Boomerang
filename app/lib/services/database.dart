@@ -15,12 +15,15 @@ class DatabaseService {
   final CollectionReference listingsCollection =
       FirebaseFirestore.instance.collection('listing');
 
+  final CollectionReference favoritesCollection =
+      FirebaseFirestore.instance.collection('Favorite');
+
   // creates / updates a document in the user collection
-  Future updateUserData(String username, String phone) async {
+  Future updateUserData(String username, String phone, String email) async {
     String uid = AuthService().getID();
     return await userCollection
         .doc(uid)
-        .set({'username': username, 'phone_number': phone});
+        .set({'username': username, 'phone_number': phone, 'email': email});
   }
 
   // creates a document in the listing collection and an image file in firebase storage
@@ -125,5 +128,41 @@ class DatabaseService {
     var url = await ref.getDownloadURL();
     mapped!["imageURL"] = url;
     return mapped;
+  }
+
+  Future insertFavorite(Map<String, dynamic> row) async {
+    DocumentReference docref = await favoritesCollection.add({
+      'ref': row["ref"],
+      'postId': row["postId"],
+    });
+    print(docref.id);
+    // .then((value){
+    // print(value.id);
+    // });
+    await favoritesCollection
+        .doc(docref.id)
+        .set({'ref': row["ref"], 'postId': row["postId"], 'id': docref.id});
+  }
+
+  Future deleteFavorite(Map<String, dynamic> row) async {
+    var data = await FirebaseFirestore.instance
+        .collection("Favorite")
+        .where("postId", isEqualTo: row["postId"])
+        .where("ref", isEqualTo: row["ref"]);
+    var currendtdata;
+
+    try {
+      await for (final value in data.snapshots()) {
+        currendtdata = value.docs.first.data();
+        print(currendtdata);
+        print(currendtdata['id']);
+        FirebaseFirestore.instance
+            .collection('Favorite')
+            .doc(currendtdata['id'])
+            .delete();
+      }
+    } catch (exception) {
+      print("this is error");
+    }
   }
 }

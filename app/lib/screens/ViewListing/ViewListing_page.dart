@@ -1,11 +1,19 @@
+// ignore_for_file: file_names
 
+import 'package:app/classes/globals.dart';
 import 'package:app/screens/Favorite/Favorite.dart';
+import 'package:app/services/geolocation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/dashboard/dashboard_page.dart';
 import 'package:app/services/database.dart';
 import 'package:app/services/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+
+String name = "";
+String email = "";
+String phone = "";
+String distance = "";
+String city = "";
 
 class ViewListing extends StatefulWidget {
   String title;
@@ -14,168 +22,114 @@ class ViewListing extends StatefulWidget {
   String tag;
   String url;
   String postId;
- ViewListing(this.title,this.price,this.description,this.tag,this.url,this.postId);
+  String userId;
+  GeoPoint location;
+
+  ViewListing(this.title, this.price, this.description, this.tag, this.url,
+      this.postId, this.userId, this.location);
   @override
   _ViewListingState createState() => _ViewListingState();
 }
+
 class _ViewListingState extends State<ViewListing> {
   String currentIcon = "";
-  Icon icon1 = Icon(Icons.favorite_border);
+  Icon icon1 = Icon(Icons.star_border);
   int count = 0;
-  
-    @override
-  void initState(){
-	    // TODO: implement initState
-      //  Future.delayed(Duration.zero,()async{
-      //   await getAllData();
-      // });
-	    super.initState();
-      print("in here");
-      checkFavorite();
-
-
-	    // getAllData.when;
-   
-	  }
+  @override
+  void initState() {
+    super.initState();
+    checkFavorite();
+    getData(widget.userId, widget.location);
+  }
 
   @override
-	  Widget build(BuildContext context) {
-	    return Scaffold(
-        
-	      appBar: AppBar(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
         centerTitle: true,
         title: Column(
-          children: [
-            Image.network(
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/1920px-EBay_logo.svg.png',
-              width: 100,
-            )
-          ],
+          children: [Image.asset("assets/boomerangTxt.png")],
         ),
         actions: <Widget>[
-            IconButton(
-              icon: icon1,
-              onPressed: ()async{
-                if(currentIcon ==  "Icons.favorite") {
-                    currentIcon =  "nothing";
-                         
-                  }
-                else {
-                    currentIcon =  "Icons.favorite";
+          IconButton(
+            icon: icon1,
+            onPressed: () async {
+              if (currentIcon == "Icons.favorite") {
+                currentIcon = "nothing";
+              } else {
+                currentIcon = "Icons.favorite";
+              }
+
+              if (currentIcon == "Icons.favorite") {
+                insertFavorite();
+              } else if (currentIcon != "Icons.favorite") {
+                await deleteFavorite();
+              }
+              setState(() {
+                if (currentIcon == "Icons.favorite") {
+                  icon1 = Icon(Icons.star);
+                } else {
+                  icon1 = Icon(Icons.star_border);
                 }
-
-                if(currentIcon =="Icons.favorite"){
-                      insertFavorite();
-                  
-                    
-                  }
-
-                else if(currentIcon !="Icons.favorite"){
-                    await deleteFavorite();
-                
-                  
-                }
-                setState(() {
-                  print("//////////////////////////////////////////////////////////////////");
-                
-                  
-                  print(icon1);
-                
-                  
-                  if(currentIcon ==  "Icons.favorite") {
-                   
-                    icon1 = Icon(Icons.favorite);      
-                  }
-                  else {
-                    
-                      icon1 = Icon(Icons.favorite_border);
-                      
-                  }
-                  print("344444444444444444444444444444444444444444444444");
-                 
-
-                });
-               
-                // setState((){
-                //  count+=1;
-                // });
-                print("sssssssssssssssss");
-              },
-              
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.bar_chart,
-                color: Colors.white,
-              ),
-              onPressed: () {           
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Favorites()));
-              },
-        )
-      ],
-        
+              });
+            },
+          ),
+        ],
       ),
-	      body: ViewListContent(widget.title,widget.price,widget.description,widget.tag,widget.url),
-	    );
-	  }
+      body: ViewListContent(widget.title, widget.price, widget.description,
+          widget.tag, widget.url, widget.userId),
+    );
+  }
 
+  checkFavorite() async {
+    AuthService authService = AuthService();
+    var favorites = await DatabaseService().getFavorites();
+    var key = authService.getID();
+    var listOfPostId = [];
 
-    checkFavorite() async{
-      AuthService authService = new AuthService();
-      var favorites = await  DatabaseService().getFavorites();
-      var key = authService.getID();   
-      print(key);
-      var listOfPostId = [];
-      var snapshot;
-  
-      favorites.forEach((element)=>{
-        if(element["ref"] == key){
-          listOfPostId.add(element["postId"]),
-          
-         
-        }
-        
-      });
-      print("xxxxxxxxxxxxxxxxxxxxxxxxx");
-      print(listOfPostId);
-      for(int i=0;i<listOfPostId.length;i++){
-        if(listOfPostId[i] == widget.postId){
-          icon1 = Icon(Icons.favorite);
-          currentIcon = "Icons.favorite";
-        }
+    favorites.forEach((element) => {
+          if (element["ref"] == key)
+            {
+              listOfPostId.add(element["postId"]),
+            }
+        });
+    for (int i = 0; i < listOfPostId.length; i++) {
+      if (listOfPostId[i] == widget.postId) {
+        icon1 = Icon(Icons.star);
+        currentIcon = "Icons.favorite";
       }
-      
+    }
 
-      setState(() {
-        
-      });
-      // snapshot = await FirebaseFirestore.instance.collection('listing').doc(listOfPostId[2]).get(); 
-      // print(snapshot.data());
-     }
+    setState(() {});
+  }
 
-     insertFavorite()async {
-        AuthService authService = new AuthService();
-        var key = authService.getID();   
-        
+  getData(String id, GeoPoint location) async {
+    var data = await DatabaseService().getUserInfoByID(id);
+    name = data['username'];
+    phone = data['phone_number'];
+    email = data['email'];
+    city = await GeolocationService()
+        .getPlaceMark(location.latitude, location.longitude);
+    double d = await GeolocationService()
+        .getDistance(location.latitude, location.longitude);
+    distance = (d * 0.001).toStringAsFixed(1);
+    setState(() {});
+  }
 
-        var favorites = await  DatabaseService().insertFavorite({"ref": key,"postId": widget.postId});
-       
-       
-        
-     }
+  insertFavorite() async {
+    AuthService authService = AuthService();
+    var key = authService.getID();
 
-     deleteFavorite()async{
-        AuthService authService = new AuthService();
-        var key = authService.getID();  
-        await  DatabaseService().deleteFavorite({"ref": key,"postId": widget.postId});
-        print("2222222222222222222222222222222222222222222222");
-       
-     }
+    var favorites = await DatabaseService()
+        .insertFavorite({"ref": key, "postId": widget.postId});
+  }
 
-    
+  deleteFavorite() async {
+    AuthService authService = AuthService();
+    var key = authService.getID();
+    await DatabaseService()
+        .deleteFavorite({"ref": key, "postId": widget.postId});
+  }
 }
 
 class ViewListContent extends StatefulWidget {
@@ -184,8 +138,9 @@ class ViewListContent extends StatefulWidget {
   String description;
   String tag;
   String url;
-  ViewListContent(this.title,this.price,this.description,this.tag,this.url);
-  
+  String userId;
+  ViewListContent(this.title, this.price, this.description, this.tag, this.url,
+      this.userId);
 
   @override
   _ViewListContentState createState() => _ViewListContentState();
@@ -194,121 +149,95 @@ class ViewListContent extends StatefulWidget {
 class _ViewListContentState extends State<ViewListContent> {
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-     
+    return ListView(
+      children: [
         Container(
-          width: 130,
-          height: 250,
+          height: 350,
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
-                // Radius.circular(20)),
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                // topRight: Radius.circular(20),
-                // bottomRight: Radius.circular(20)
-              ),
               image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image:
-                      NetworkImage(widget.url))) ,
-          
-          
+                  fit: BoxFit.cover, image: NetworkImage(widget.url))),
         ),
-      
-    
-      
-        
-        
-      Column(
-        mainAxisAlignment:MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(padding: EdgeInsets.fromLTRB(30,10,0,0),
-           
-          child:Text(widget.tag, style: TextStyle(
-            color: Colors.grey,) 
-          ),),
-
-        Padding(padding: EdgeInsets.fromLTRB(30,10,0,0),
-          child:Text(widget.title,style: TextStyle(
-            fontSize: 20,
-  	          fontWeight: FontWeight.bold
-          ),)),
-
-        Padding(padding: EdgeInsets.fromLTRB(30,10,0,0),
-          child:Text("Markham, On - 22km",style:TextStyle(color: Colors.blue))),
-        
-        Padding(padding: EdgeInsets.fromLTRB(30,10,0,0),
-          child:Text((widget.price.toString()),style:TextStyle(
-            fontSize: 25,
-  	        fontWeight: FontWeight.bold))),
-
-        Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.blueAccent,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
+              child: Text(widget.tag,
+                  style: TextStyle(
+                    color: Colors.grey,
+                  )),
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.blue
-          ),
-          padding: EdgeInsets.fromLTRB(20,0,0,0),
-          margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-          height: 60,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text("nitendorone12",style:TextStyle(color: Colors.white),textAlign: TextAlign.center)],
-          )
-        ),
-
-        Padding(padding: EdgeInsets.fromLTRB(30,10,0,0),
-          child:Text("Description",style:TextStyle(
-            fontSize: 20,
-  	        fontWeight: FontWeight.bold))),
-
-        Padding(padding: EdgeInsets.fromLTRB(30,10,0,0),
-          child:
-            Text(
-              widget.description,style:TextStyle(
-              fontSize: 15,
-  	        ))
-
-        ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue,
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                )),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                child: Text((city + ' - ' + distance + ' km'),
+                    style: TextStyle(color: custom_colour))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
+                child: Text(("\$" + widget.price.toString()),
+                    style:
+                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold))),
+            Divider(
+              thickness: 2.0,
+            ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
+                child: Text("Description",
+                    style:
+                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 0),
+                child: Text(widget.description,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ))),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 5, 0, 5),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3.0,
+                      color: custom_colour,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-          // constraints: BoxConstraints(minWidth: 40),
-              padding: EdgeInsets.fromLTRB(0,0,0,0),
-              margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-              width: 180,
-              height: 30,
-          
-              child: Row( 
-                mainAxisAlignment:MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Contact Information",style:TextStyle(color: Colors.black,fontSize: 15, fontWeight: FontWeight.bold))
-                ],
-              )
-        ),
-
-            ],
-          
-        ),
-        
-      
-      
-      ],)
-      
-    ],);
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ("Posted by: " + name),
+                            style:
+                                TextStyle(color: custom_colour, fontSize: 18),
+                          ),
+                          Text(
+                            ("Phone number: " + phone),
+                            style:
+                                TextStyle(color: custom_colour, fontSize: 18),
+                          ),
+                          Text(
+                            ("Email: " + email),
+                            style:
+                                TextStyle(color: custom_colour, fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }

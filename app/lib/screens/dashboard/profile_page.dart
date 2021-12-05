@@ -126,8 +126,8 @@ class _ProfileState extends State<Profile> {
       //Confirm password is correct
       var credential = await _auth.tryLogin(passwordController.text);
       if (credential != null) {
-        DatabaseService()
-            .updateUserData(usernameController.text, phoneController.text);
+        DatabaseService().updateUserData(usernameController.text,
+            phoneController.text, emailController.text);
 
         _auth.updateEmail(emailController.text, credential);
         // await fetchUserData();

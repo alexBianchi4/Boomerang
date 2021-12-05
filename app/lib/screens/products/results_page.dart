@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, avoid_unnecessary_containers, dead_code, prefer_const_literals_to_create_immutables
+import 'package:app/screens/ViewListing/ViewListing_page.dart';
+import 'package:app/services/geolocation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -73,7 +75,28 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                       var docData = snapshot.data.docs[index].data();
                       var docId = snapshot.data.docs[index].id;
                       return GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            GeoPoint location = docData["position"]["geopoint"];
+                            // String placemark = await GeolocationService()
+                            //     .getPlaceMark(
+                            //         location.latitude, location.longitude);
+                            // double distance = await GeolocationService()
+                            //     .getDistance(
+                            //         location.latitude, location.longitude);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ViewListing(
+                                      docData["title"],
+                                      docData["price"],
+                                      docData["description"],
+                                      docData["tag"],
+                                      docData["url"],
+                                      docId,
+                                      docData["uid"],
+                                      location),
+                                ));
+                          },
                           child: Container(
                               height: 120,
                               child: Row(
@@ -83,11 +106,8 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.only(
-                                            // Radius.circular(20)),
                                             topLeft: Radius.circular(20),
                                             bottomLeft: Radius.circular(20),
-                                            // topRight: Radius.circular(20),
-                                            // bottomRight: Radius.circular(20)
                                           ),
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
@@ -98,15 +118,7 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                                       child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: [
-                                            // Text(
-                                            //   docData['"title'],
-                                            //   style: TextStyle(
-                                            //     fontSize: 15,
-                                            //     color: Colors.white,
-                                            //   ),
-                                            // )
-                                          ])),
+                                          children: [])),
                                   Expanded(
                                       child: Container(
                                     height: 120,
