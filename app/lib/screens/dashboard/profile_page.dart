@@ -56,18 +56,40 @@ class _ProfileState extends State<Profile> {
           padding: EdgeInsets.all(20.0),
           child: Column(
                 children: [
-                  //username
-                  Text(usernameController.text),
-                  SizedBox(height: 3 * spacer),
-                  //email
-                  Text(emailController.text),
-                  SizedBox(height: spacer),
-                  //phone number
-                  Text(phoneController.text),
-                  SizedBox(height: 3 * spacer),
-                  //password
-                  SizedBox(height: spacer),
                   
+                  SizedBox(height: spacer),
+                  //username
+                  Row(
+                    children: [
+                      Icon(Icons.person),
+                      SizedBox(width: spacer),
+                      Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(usernameController.text,
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: custom_colour,)),
+                  ),]),
+                  //email
+                      Align(
+                  alignment: Alignment.centerLeft,
+                  child:Text(emailController.text,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),),
+
+                  SizedBox(height: 2 * spacer),
+                  
+                      Align(
+                  alignment: Alignment.center,
+                  child:Row(
+                    children: [
+                      SizedBox(child: Icon(Icons.phone)),
+                      SizedBox(width: spacer),
+                  Text(phoneController.text,
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold))])),
+                  SizedBox(height: 3 * spacer),
+                  //phone number
+                  Align(
+                  alignment: Alignment.bottomCenter,
+                  child:
+                  Column( children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -107,6 +129,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
+                  ]))
                 ],
               ))
     ]);
