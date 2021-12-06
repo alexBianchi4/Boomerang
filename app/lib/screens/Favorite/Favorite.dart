@@ -63,7 +63,7 @@ class _FavoritesState extends State<Favorites> {
           else if (key == element["ref"])
             {currnetFavorites.add(element), allPosts.add(element["postId"])},
         });
-    favorites.forEach((element) => {postId.add(element["name"])});
+    favorites.forEach((element) => {postId.add(element["postId"])});
 
     var snapshot1;
     var data;
@@ -104,7 +104,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     // TODO: implement initState
     super.initState();
   }
-  
+
   List<Map<String, dynamic>> allListings = [];
   final Listing = FirebaseFirestore.instance.collection('listing');
   final Favorites = FirebaseFirestore.instance.collection('Favorite');
