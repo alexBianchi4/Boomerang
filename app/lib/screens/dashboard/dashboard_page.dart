@@ -35,6 +35,8 @@ class _DashBoardState extends State<DashBoard> {
     return null;
   }
 
+  bool sorted = true;
+
   final AuthService auth = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -43,9 +45,9 @@ class _DashBoardState extends State<DashBoard> {
       appBar: providerHelper.pageIndex == 0
           ? AppBar(
               centerTitle: true,
-              title: Column(
-                children: [Image.asset('assets/boomerangTxt.png')],
-              ),
+              title: Container(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Image.asset('assets/boomerangTxt.png')),
               bottom: PreferredSize(
                   child: Container(
                       padding: EdgeInsets.only(bottom: 7),
@@ -71,9 +73,17 @@ class _DashBoardState extends State<DashBoard> {
               actions: [
                 IconButton(
                     onPressed: () {
-                      setState(() {
-                        categories.sort((a, b) => a.title.compareTo(b.title));
-                      });
+                      if (sorted == true) {
+                        setState(() {
+                          categories.sort((a, b) => b.title.compareTo(a.title));
+                          sorted = false;
+                        });
+                      } else if (sorted == false) {
+                        setState(() {
+                          categories.sort((a, b) => a.title.compareTo(b.title));
+                          sorted = true;
+                        });
+                      }
                     },
                     icon: Icon(
                       Icons.sort_by_alpha,
@@ -82,9 +92,9 @@ class _DashBoardState extends State<DashBoard> {
             )
           : AppBar(
               centerTitle: true,
-              title: Column(
-                children: [Image.asset('assets/boomerangTxt.png')],
-              ),
+              title: Container(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Image.asset('assets/boomerangTxt.png')),
             ),
       backgroundColor: Colors.white,
       body: decide(providerHelper.pageIndex),

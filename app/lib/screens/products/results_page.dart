@@ -26,9 +26,9 @@ class _ResultsWidgetState extends State<ResultsWidget> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Column(
-            children: [Image.asset("assets/boomerangTxt.png")],
-          ),
+          title: Container(
+              margin: EdgeInsets.only(right: 60),
+              child: Image.asset("assets/boomerangTxt.png")),
           bottom: PreferredSize(
               child: Container(
                   padding: EdgeInsets.only(bottom: 7),
@@ -42,6 +42,7 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(40))),
                       onSubmitted: (value) {
+                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -49,13 +50,6 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                             ));
                       })),
               preferredSize: Size.fromHeight(30)),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                icon: Icon(Icons.sort))
-          ],
         ),
         body: Padding(
             padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
@@ -67,6 +61,7 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                         .snapshots()
                     : FirebaseFirestore.instance
                         .collection("listing")
+                        .orderBy('title', descending: false)
                         .where("tag", isEqualTo: categoryGlobal)
                         .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {

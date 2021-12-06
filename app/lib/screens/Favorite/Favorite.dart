@@ -61,14 +61,15 @@ class _FavoritesState extends State<Favorites> {
           if (allPosts.contains(element["postId"]))
             {}
           else if (key == element["ref"])
-            {currnetFavorites.add(element),postId.add(element["postId"]), allPosts.add(element["postId"])},
+            {
+              currnetFavorites.add(element),
+              postId.add(element["postId"]),
+              allPosts.add(element["postId"])
+            },
         });
-  
 
     var snapshot1;
     var data;
-
-    
 
     try {
       for (int i = 0; i < allPosts.length; i++) {
@@ -113,123 +114,99 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     return ListView.builder(
         itemCount: price.length,
         itemBuilder: (BuildContext context, int index) {
-        return Container(
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.all(Radius.circular(22)),
-              border:
-                  Border.all(color: Colors.blue, width: 2)),
-                                  
-                                  
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ViewListing(
-                        title[index],
-                        price[index],
-                        description[index],
-                        tags[index],
-                        images[index],
-                        postId[index],
-                        userId[index],
-                        locations[index]),
-                  ));
-            },
-            child: Container(
-                                  height: 120,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 130,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              // topRight: Radius.circular(20),
-                                              bottomLeft: Radius.circular(20),
-                                              // bottomRight: Radius.circular(20)
-                                            ),
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                    images[index]))),
+          return Container(
+              margin: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(22)),
+                  border: Border.all(color: Colors.blue, width: 2)),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewListing(
+                              title[index],
+                              price[index],
+                              description[index],
+                              tags[index],
+                              images[index],
+                              postId[index],
+                              userId[index],
+                              locations[index]),
+                        ));
+                  },
+                  child: Container(
+                      height: 120,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 130,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  // topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  // bottomRight: Radius.circular(20)
+                                ),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(images[index]))),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.only(top: 10),
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  // color: custom_colour2,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(20)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                                child: Text(
+                                              title[index],
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
+                                          ],
+                                        ),
                                       ),
-                                      Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            padding: EdgeInsets.only(top: 10),
-                                            height: 120,
-                                            decoration: BoxDecoration(
-                                              // color: custom_colour2,
-                                              borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(20),
-                                                  bottomRight:
-                                                      Radius.circular(20)),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        left: 15),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Flexible(
-                                                            child: Text(
-                                                          title[index],
-                                                          style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        left: 15),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Flexible(
-                                                            child: Text(("\$" +
-                                                                price[index]
-                                                                    .toString()))),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )),
-                                    ],
-                                  ))
-          ));                        
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  
-        
-          
-          
-          
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                                child: Text(("\$" +
+                                                    price[index].toString()))),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ))));
         });
   }
 }
