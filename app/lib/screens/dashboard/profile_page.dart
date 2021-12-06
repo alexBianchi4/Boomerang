@@ -69,10 +69,16 @@ class _ProfileState extends State<Profile> {
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: custom_colour,)),
                   ),]),
                   //email
+                     SizedBox(height:1.5* spacer),
+                  
                       Align(
-                  alignment: Alignment.centerLeft,
-                  child:Text(emailController.text,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),),
+                  alignment: Alignment.center,
+                  child:Row(
+                    children: [
+                      SizedBox(child: Icon(Icons.mail)),
+                      SizedBox(width: spacer),
+                  Text(emailController.text,
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold))])),
 
                   SizedBox(height: 2 * spacer),
                   
@@ -84,12 +90,9 @@ class _ProfileState extends State<Profile> {
                       SizedBox(width: spacer),
                   Text(phoneController.text,
                   style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold))])),
-                  SizedBox(height: 3 * spacer),
+                  SizedBox(height: 8 * spacer),
                   //phone number
-                  Align(
-                  alignment: Alignment.bottomCenter,
-                  child:
-                  Column( children: [
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -129,7 +132,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                  ]))
+                  
                 ],
               ))
     ]);
