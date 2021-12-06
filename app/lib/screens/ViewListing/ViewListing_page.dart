@@ -93,6 +93,8 @@ class _ViewListingState extends State<ViewListing> {
               listOfPostId.add(element["postId"]),
             }
         });
+    print(listOfPostId);
+    print(widget.postId);
     for (int i = 0; i < listOfPostId.length; i++) {
       if (listOfPostId[i] == widget.postId) {
         icon1 = Icon(Icons.star);

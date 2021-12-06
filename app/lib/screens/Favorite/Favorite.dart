@@ -63,7 +63,7 @@ class _FavoritesState extends State<Favorites> {
           else if (key == element["ref"])
             {currnetFavorites.add(element), allPosts.add(element["postId"])},
         });
-    favorites.forEach((element) => {postId.add(element["name"])});
+    favorites.forEach((element) => {postId.add(element["postId"])});
 
     var snapshot1;
     var data;
@@ -87,6 +87,7 @@ class _FavoritesState extends State<Favorites> {
         userId.add(data["uid"]);
       }
     } catch (exception) {}
+
     setState(() {});
   }
 }
