@@ -55,6 +55,10 @@ class AuthService {
     authResult.user!.updateEmail(email);
   }
 
+  updatePassword(String password, UserCredential authResult) async {
+    authResult.user!.updatePassword(password);
+  }
+
   // register with email and password
   Future register(
       String email, String password, String username, String phone) async {

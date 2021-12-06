@@ -113,7 +113,7 @@ class _ViewListingState extends State<ViewListing> {
     double d = await GeolocationService()
         .getDistance(location.latitude, location.longitude);
     distance = (d * 0.001).toStringAsFixed(1);
-    setState(() {});
+    //setState(() {});
   }
 
   insertFavorite() async {
