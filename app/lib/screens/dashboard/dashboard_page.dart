@@ -55,8 +55,7 @@ class _DashBoardState extends State<DashBoard> {
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            suffixIcon: IconButton(
-                                onPressed: () {}, icon: Icon(Icons.search)),
+                            suffixIcon: Icon(Icons.search),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(40))),
                         onSubmitted: (value) {

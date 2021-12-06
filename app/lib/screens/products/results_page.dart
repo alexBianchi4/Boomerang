@@ -35,14 +35,19 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                   height: 40,
                   width: 300,
                   child: TextField(
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        suffixIcon: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.search)),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40))),
-                  )),
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          suffixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40))),
+                      onSubmitted: (value) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ResultsWidget(value, true),
+                            ));
+                      })),
               preferredSize: Size.fromHeight(30)),
           actions: [
             IconButton(
@@ -66,7 +71,7 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                         .snapshots(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   }
                   return ListView.separated(
                       itemCount: snapshot.data.docs.length,
@@ -172,9 +177,13 @@ class _ResultsWidgetState extends State<ResultsWidget> {
                                                               .start,
                                                       children: [
                                                         Flexible(
-                                                            child: Text(("\$" +
-                                                                docData['price']
-                                                                    .toString()))),
+                                                            child: Text(
+                                                          ("\$" +
+                                                              docData['price']
+                                                                  .toString()),
+                                                          style: TextStyle(
+                                                              fontSize: 17),
+                                                        )),
                                                       ],
                                                     ),
                                                   ),
