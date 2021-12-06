@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                 // [Colors., Color(0xFF00dbde)],
                 // [Color(0xFF396afc), Color(0xFF2948ff)]
               ],
-              durations: [3000, 90000],
+              durations: [3000, 4000],
               heightPercentages: [0.60, 0.7],
               blur: MaskFilter.blur(BlurStyle.solid, 5),
               gradientBegin: Alignment.topLeft,
