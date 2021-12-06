@@ -87,7 +87,7 @@ class _FavoritesState extends State<Favorites> {
         userId.add(data["uid"]);
       }
     } catch (exception) {}
-    
+
     setState(() {});
   }
 }
