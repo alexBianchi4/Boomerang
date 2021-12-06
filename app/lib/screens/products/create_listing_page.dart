@@ -157,7 +157,7 @@ class _CreateListingState extends State<CreateListing> {
                   'Gaming',
                   'Laptops',
                   'Phones',
-                  'Tech',
+                  'TVs',
                   'Watches'
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(

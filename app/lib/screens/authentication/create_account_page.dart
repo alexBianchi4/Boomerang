@@ -36,7 +36,6 @@ class _CreateAccountState extends State<CreateAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
       appBar: AppBar(
         // remove the back button
         automaticallyImplyLeading: false,
